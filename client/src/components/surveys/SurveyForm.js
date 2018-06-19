@@ -1,37 +1,29 @@
+import _ from "lodash";
 import React, { Component } from "react";
 import { reduxForm, Field } from "redux-form";
+import { Link } from 'react-router-dom'
 import SurveyField from "./SurveyField";
+
+const FIELD = [
+  { label: "Survey Title", name: "title" },
+  { label: "Subject Line", name: "subject" },
+  { label: "Email Body", name: "body" },
+  { label: "Recipient List", name: "emails" }
+];
 
 class SurveyForm extends Component {
   renderFields() {
-    return (
-      <div>
+    return _.map(FIELD, ({ label, name }) => {
+      return (
         <Field
-          label="Survey Title"
-          type="text"
-          name="title"
+          key={name}
           component={SurveyField}
-        />
-        <Field
-          label="Subject Line"
           type="text"
-          name="subject"
-          component={SurveyField}
+          label={label}
+          name={name}
         />
-        <Field
-          label="Email Body"
-          type="text"
-          name="body"
-          component={SurveyField}
-        />
-        <Field
-          label="Recipient List"
-          type="text"
-          name="emails"
-          component={SurveyField}
-        />
-      </div>
-    );
+      );
+    });
   }
 
   render() {
@@ -39,13 +31,30 @@ class SurveyForm extends Component {
       <div>
         <form onSubmit={this.props.handleSubmit(values => console.log(values))}>
           {this.renderFields()}
-          <button type="submit">Submit</button>
+          <Link to="/surveys" className="red btn-flat white-text">
+            Cancel
+          </Link>
+          <button type="submit" className="teal btn-flat right white-text">
+            Next
+            <i className="material-icons right">done</i>
+          </button>
         </form>
       </div>
     );
   }
 }
 
+function validate(values) {
+  const errors = {};
+
+  if (!values.title) {
+    errors.title = 'You must provide a title';
+  }
+
+  return errors;
+}
+
 export default reduxForm({
+  validate,
   form: "surveyForm"
 })(SurveyForm);

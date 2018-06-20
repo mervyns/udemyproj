@@ -4,11 +4,11 @@ const Landing = () => {
   return (
     <div style={{ textAlign: 'center' }}>
       <h1>
-        Emaily
+        Emaily!
       </h1>
-      Collect feedback
+      Collect feedback form your users
     </div>
   );
 };
 
-export default Landing
+export default Landing;

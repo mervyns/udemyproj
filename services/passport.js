@@ -11,27 +11,27 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser((id, done) => {
   User.findById(id).then(user => {
-      done(null, user);
+    done(null, user);
   });
 });
 
 passport.use(
-    new GoogleStrategy({
+  new GoogleStrategy(
+    {
       clientID: keys.googleClientID,
       clientSecret: keys.googleClientSecret,
       callbackURL: '/auth/google/callback',
       proxy: true
     },
     async (accessToken, refreshToken, profile, done) => {
-      const existingUser = await User.findOne({ googleId: profile.id })
-          if (existingUser) {
-            //we already have a record with profile ID
-            return done(null, existingUser);
-          } else {
-            // we dont have a record, create a new findOne
-            const user = await new User({ googleId: profile.id }).save()
-            done(null, user);
-          }
+      const existingUser = await User.findOne({ googleId: profile.id });
+
+      if (existingUser) {
+        return done(null, existingUser);
       }
+
+      const user = await new User({ googleId: profile.id }).save();
+      done(null, user);
+    }
   )
 );

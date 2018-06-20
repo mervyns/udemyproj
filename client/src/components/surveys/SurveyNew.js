@@ -1,7 +1,8 @@
-import React, { Component } from "react";
-import { reduxForm } from "redux-form";
-import SurveyForm from "./SurveyForm";
-import SurveyFormReview from "./SurveyFormReview";
+// SurveyNew shows SurveyForm and SurveyFormReview
+import React, { Component } from 'react';
+import { reduxForm } from 'redux-form';
+import SurveyForm from './SurveyForm';
+import SurveyFormReview from './SurveyFormReview';
 
 class SurveyNew extends Component {
   state = { showFormReview: false };
@@ -14,6 +15,7 @@ class SurveyNew extends Component {
         />
       );
     }
+
     return (
       <SurveyForm
         onSurveySubmit={() => this.setState({ showFormReview: true })}
@@ -23,11 +25,13 @@ class SurveyNew extends Component {
 
   render() {
     return (
-      <div>{this.renderContent()}</div>
+      <div>
+        {this.renderContent()}
+      </div>
     );
   }
 }
 
 export default reduxForm({
-  form: "surveyForm"
+  form: 'surveyForm'
 })(SurveyNew);
